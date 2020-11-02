@@ -19,6 +19,17 @@ def driver_init():
 
     return driver
 
+def engine_init():
+    engine = create_engine('postgresql://postgres:postgres@localhost:5432/postgres')
+    
+    if not engine.dialect.has_schema(engine,'book_club'):
+        sql.execute('CREATE SCHEMA IF NOT EXISTS book_club', engine)
+    else:
+        sql.execute('DROP TABLE IF EXISTS book_club.books', engine)
+    
+    return engine
+
+
 def scrapy_category_lists(driver):
     driver.get('http://books.toscrape.com/index.html')
 
@@ -33,11 +44,11 @@ def scrapy_category_lists(driver):
     
     return category_links, category_list
 
-
 def scrapy_rows(driver):
     return driver.find_elements_by_xpath(
         '//li[@class="col-xs-6 col-sm-4 col-md-3 col-lg-3"]'
         +'//article[@class="product_pod"]')
+
 
 def extract_data(rows:list, category: str):
 
@@ -66,7 +77,7 @@ def extract_data(rows:list, category: str):
 
     return data
 
-def to_postgres(data,engine,schema='book_club_basic', table='books'):
+def to_postgres(data,engine,schema='book_club', table='books'):
     df = pd.DataFrame (data, columns = ['title','price','rating',
                                         'in_stock','category'])
     df.to_sql(table, engine, schema, 
@@ -80,7 +91,7 @@ def extract_next_page(driver):
 
 def sql_image_to_csv(engine):
     pd.DataFrame(
-        sql.execute('Select * From book_club_basic.books', engine),
+        sql.execute('Select * From book_club.books', engine),
         columns = ['title','price','rating','in_stock','category']
         ).to_csv('out.csv', index=False)
 
@@ -91,10 +102,7 @@ def extration_clycle(url, category,engine):
     to_postgres(data,engine)
     return extract_next_page(driver)
 
-def process(driver):
-    engine = create_engine('postgresql://postgres:postgres@localhost:5432/postgres')
-    sql.execute('DROP TABLE IF EXISTS book_club_basic.books', engine)
-    
+def process(driver, engine):    
     category_links, category_list = scrapy_category_lists(driver)
     
     for item in range(len(category_links)):    
@@ -106,6 +114,7 @@ def process(driver):
             next_page = extration_clycle(next_page, category, engine)
 
 driver = driver_init()
+engine = engine_init()
 
 if __name__ == '__main__':
-    process(driver)
+    process(driver, engine)

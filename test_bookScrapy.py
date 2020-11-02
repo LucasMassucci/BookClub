@@ -51,7 +51,7 @@ def test_extract_data(driver=driver):
     assert valid_data
 
 def test_to_postgress():
-    engine = create_engine('postgresql://postgres:postgres@localhost:5432/postgres')    
+    engine = bookScrapy.engine_init()
     data = {
             'title':  ['teste' for x in range(10)],
             'price':  ['teste' for x in range(10)],
@@ -60,9 +60,9 @@ def test_to_postgress():
             'category': ['teste' for x in range(10)]
             }
 
-    sql.execute('DROP TABLE IF EXISTS book_club_basic.teste', engine)
-    bookScrapy.to_postgres(data,engine, schema='book_club_basic', table='teste')
-    df = pd.DataFrame(sql.execute('Select * From book_club_basic.teste', engine),        
+    sql.execute('DROP TABLE IF EXISTS book_club.teste', engine)
+    bookScrapy.to_postgres(data,engine, schema='book_club', table='teste')
+    df = pd.DataFrame(sql.execute('Select * From book_club.teste', engine),        
     columns = ['title','price','rating','in_stock','category'])
     assert df.shape == (10,5)
 
