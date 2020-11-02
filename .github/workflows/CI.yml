@@ -10,6 +10,17 @@ jobs:
       matrix:
         python-version: [3.8]
     
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - "5432:5432"
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 10
+
   
     steps:
     - uses: actions/checkout@v2
@@ -42,4 +53,8 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest
+        pytest --coverage
+    - name: "Upload coverage to Codecov"
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      run: bash <( curl -s https://codecov.io.bash)
