@@ -13,9 +13,7 @@ def driver_init():
     option = Options()
     option.headless = True
 
-    driver = webdriver.Chrome(
-        '/home/lucas-massucci/Projects/Data-Engineering/BookClub/chromedriver',
-        options=option)
+    driver = webdriver.Chrome(options=option)
 
     return driver
 
