@@ -13,6 +13,15 @@ def test_driver_init():
     title = "All products | Books to Scrape - Sandbox"
     assert title == driver.title
 
+def test_engine_init():
+    engine = bookScrapy.engine_init()
+    assert engine.dialect.has_schema(engine,'book_club')
+
+def test_engine_init2():
+    engine = bookScrapy.engine_init()
+    assert engine.dialect.has_table(engine, 'books', schema='book_club') == False
+
+
 def test_scrapy_category_lists1(driver=driver):
     category_links, category_list = bookScrapy.scrapy_category_lists(driver)
     assert category_links != None and category_list != None
