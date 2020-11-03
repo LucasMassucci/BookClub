@@ -70,7 +70,7 @@ Dados coletados:
     * Objetiva consolidar um ciclo de atualização, extração , armazenamento, e indicar a url necessária para o próximo ciclo.
 
 * def process(driver, engine):
-    *Objetiva coordenar toda execução do programa. 
+    * Objetiva coordenar toda execução do programa. 
 
 
 # Utilização
