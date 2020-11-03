@@ -57,6 +57,12 @@ jobs:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: bash <(curl -s https://codecov.io/bash)
       
+    - name: fix code coverage paths
+      working-directory: ./coverage
+      run: |
+        sed -i 's/\/home\/runner\/work\/BookClub\/BookClub\//\/github\/workspace\//g' lcov.info
+        sed -i 's/\/home\/runner\/work\/BookClub\/BookClub\//\/github\/workspace\//g' sonar-cloud-reporter.xml
+      
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
