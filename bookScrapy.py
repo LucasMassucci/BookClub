@@ -12,6 +12,7 @@ from sqlalchemy import create_engine
 def driver_init():
     option = Options()
     option.headless = True
+    #'/home/lucas-massucci/Projects/DataEngineering/BookClubProjectBasic/chromedriver',
 
     driver = webdriver.Chrome(options=option)
 
