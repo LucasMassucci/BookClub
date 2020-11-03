@@ -38,34 +38,47 @@ Dados coletados:
 
 # Funções
 
-* extract_category(): 
-    * Utiliza-se de uma url defalt inicial do site, e percorre toda lateral do site coletando os links que direcionam para as categorias, realiza ainda o tratamento desses links extraindo os nomes das categorias. 
+* drive_init(): Inicia e retorna o webdriver utilizado.
+
+* engine_init(): Inicia e retorna a engine utilizada para o banco de dados, como também define esquema de tabela para o banco de dados caso não exista, e exclui a tabela antiga caso exista.
+
+* scrapy_category_lists(driver): 
+    * Realiza um get na página incial do site, percorrendo toda lateral coletando os links que direcionam para as categorias, realiza ainda o tratamento desses links extraindo os nomes das categorias. 
     * Objetiva fornecer 2 listas a primeira com a lista de links e a segunda com a lista de categorias correspondentes.
 
-* extration_clycle(): 
-    * Utiliza-se de um link e uma categoria, assim direciona a página qual deve ser direcionada a extração. Destarte por sequência realiza a chamada de extração de dados e armazenamento no postgres, e por fim, faz a chamada da função que extrai o link da próxima página se houver. 
-    * Objetiva consolidar um ciclo de atualização, extração , armazenamento, e indicar a url necessária para o próximo ciclo.
-
-
-* scrapy_rows(): 
+* scrapy_rows(driver): 
     * Procura encontrar a partir do path e listar todas as linhas de informação concernentes ao livros em exibição no link vigente. 
-    * Objetiva retornar uma lista com todas as linhas de informação  
+    * Objetiva retornar uma lista com todas as linhas de informação 
 
-* extract_data():
-    * utiliza-se das linhas extraídas através do scrapy_row() e da categoria concernente ao link em utilização. Destarte, processa e limpa as informações coletando, títulos, preços, booleano de status de estoque, informação de rating em inteiros, e adicionando a categoria.
-
+* extract_data(rows:list, category: str):
+    * Processa e limpa as informações coletando, títulos, preços, booleano de status de estoque, informação de rating em inteiros, e adicionando a categoria.
     * Objetiva extrair e tratar os dados afim de fornecer uma estrutura de dicionário apropriada para conversão em Dataframe. 
 
-* to_postgres(): 
-    * Utiliza-se dos dados fornecidos pela função de extract_data para realizar a conversão para dataframe, em seguida cria a tabela necessária e define seus respectivos tipos de dados automaticamente, por fim realiza a inserção dos dados no Postgres.
-
+* to_postgres(data,engine,schema='book_club', table='books'): 
+    * Realiza a conversão dos dados para dataframe, em seguida cria a tabela necessária e define seus respectivos tipos de dados automaticamente, por fim realiza a inserção dos dados no Postgres.
     * Objetiva inserir os dados extraídos no banco de dados. 
 
-* sql_image_to_csv(): 
+* extract_next_page(driver):
+    * Realiza a checagem se há uma próxima página para extração.
+    * Objetiva retornar a url da próxima página caso exista, motivando assim a execução de um novo ciclo. 
+    
+* sql_image_to_csv(engine): 
     * Função extra o qual objetiva realizar uma consulta no banco de dados após a gravação final e gerar uma saida csv. 
+
+* extration_clycle(url, category,engine): 
+    * Direciona a página qual deve ser direcionada a extração. Destarte por sequência realiza a chamada de extração de dados e armazenamento no postgres, e por fim, faz a chamada da função que extrai o link da próxima página se houver. 
+    * Objetiva consolidar um ciclo de atualização, extração , armazenamento, e indicar a url necessária para o próximo ciclo.
+
+* def process(driver, engine):
+    *Objetiva coordenar toda execução do programa. 
+
 
 # Utilização
 
-A para utilizar certifique-se de possuir as libs necessárias, disponíveis em requirements.txt, e o chromedriver correto para seu navegador, como também inserir o path referente a sua localização. 
+A para utilizar certifique-se de possuir as libs necessárias, disponíveis em requirements.txt, e o chromedriver correto para seu navegador, como também inserir:
+(<o path referente a sua localização>,<options=option>) no webdriver.  
 
 Por fim basta indicar o banco de dados. E executar o script. 
+
+
+Obs: Os testes foram criados utilizando o pytest. 
