@@ -81,4 +81,4 @@ A para utilizar certifique-se de possuir as libs necessárias, disponíveis em r
 Por fim basta indicar o banco de dados. E executar o script. 
 
 
-Obs: Os testes foram criados utilizando o pytest. 
+Obs: Os testes foram criados utilizando o pytest. E foi definido action para testagem a cada push. 
