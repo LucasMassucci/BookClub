@@ -52,7 +52,7 @@ jobs:
       run: |
         pip install pytest
         pip install pytest-cov
-        pytest --cov=/coverage-reports --cov-report=xml     
+        pytest --cov= --cov-report=xml     
     - name: Upload coverage to Codecov
       env: 
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
