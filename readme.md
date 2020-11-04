@@ -1,3 +1,14 @@
+ [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=LucasMassucci_BookClub) 
+ 
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=LucasMassucci_BookClub&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=LucasMassucci_BookClub)  [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=LucasMassucci_BookClub&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=LucasMassucci_BookClub)  [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=LucasMassucci_BookClub&metric=security_rating)](https://sonarcloud.io/dashboard?id=LucasMassucci_BookClub)
+
+
+
+
+
+
+   [![codecov](https://codecov.io/gh/LucasMassucci/BookClub/branch/master/graph/badge.svg?token=GB8POM5DRM)](https://codecov.io/gh/LucasMassucci/BookClub)
+
 # Contexto
 Se baseia no modelo de negócio que funciona com base na troca de livros pelos usuários, cada livro cadastrado pelo usuário dá o direito a uma troca, porém o usuário também pode comprar o livro caso não queira oferecer outro em troca.
 
@@ -81,4 +92,4 @@ A para utilizar certifique-se de possuir as libs necessárias, disponíveis em r
 Por fim basta indicar o banco de dados. E executar o script. 
 
 
-Obs: Os testes foram criados utilizando o pytest. E foi definido action para testagem a cada push. 
+
