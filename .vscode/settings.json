@@ -1,5 +1,7 @@
 {
-    "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Path": "~/Virtualenvs/Python3/omni/bin/flake8",
     "python.pythonPath": "~/Virtualenvs/Python3/omni/bin/python",
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": true,
 }
